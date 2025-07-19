@@ -1,56 +1,50 @@
-# Compiled class files
+# === Compiled class files ===
 *.class
 
-# Log files
+# === Log files ===
 *.log
 
-# Package Files
+# === Package Files ===
 *.jar
 *.war
 *.ear
 
-# Build directories
+# === Build directories ===
 build/
 dist/
+target/
+out/
 
-# NetBeans project files
+# === NetBeans project files ===
 nbproject/private/
-nbproject/build-impl.xml
 nbproject/genfiles.properties
 
-# Local NetBeans history
+
+# NetBeans cache 
 nbproject/Makefile-*
 nbproject/.netbeans*
 
-# OS generated files
+# === IDEs ===
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# === OS generated files ===
 .DS_Store
 Thumbs.db
 
-# Backup & temporary files
+# === Backup & temporary files ===
 *~
 *.bak
 *.swp
 
-# Maven
-target/
+# === Maven ===
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 release.properties
 
-# Gradle
+# === Gradle ===
 .gradle/
-build/
-
-# IntelliJ / Eclipse
-.idea/
-*.iml
-*.ipr
-*.iws
-*.class
-out/
-
-.vscode/
-
-nbproject/
-
