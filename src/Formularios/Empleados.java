@@ -347,7 +347,52 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
-        // TODO add your handling code here:
+             String dni = txtDNI.getText().trim();
+        String primerNombre = txtPrimerNombre.getText().trim();
+        String segundoNombre = txtSegundoNombre.getText().trim();
+        String primerApellido = txtPrimerApellido.getText().trim();
+        String segundoApellido = txtSegundoApellido.getText().trim();
+        String genero = (String) comboGenero.getSelectedItem();
+        String telefono = txtTelefono.getText().trim();
+        String contrasena = new String(jpContra.getPassword());
+
+ 
+        if (dni.isEmpty() || primerNombre.isEmpty() || primerApellido.isEmpty() || contrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios: DNI, Primer Nombre, Primer Apellido, Contraseña.", "Atención", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Verificar si ya existe un empleado con ese DNI
+            if (serviceEmpleado.obtenerEmpleadoPorDni(dni) != null) {
+                JOptionPane.showMessageDialog(this, "Ya existe un empleado con ese DNI.", "Duplicado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Construir empleado con el builder
+            Empleado nuevoEmpleado = new Empleado.Builder()
+                    .dniEmpleado(dni)
+                    .primerNombre(primerNombre)
+                    .segundoNombre(segundoNombre.isEmpty() ? null : segundoNombre)
+                    .primerApellido(primerApellido)
+                    .segundoApellido(segundoApellido.isEmpty() ? null : segundoApellido)
+                    .genero(genero)
+                    .telefonoEmpleado(telefono)
+                    .estado("activo") // o como desees inicializarlo
+                    .build();
+
+            // Guardar empleado
+            boolean guardado = serviceEmpleado.insertarEmpleado(nuevoEmpleado, contrasena);
+            if (guardado) {
+                JOptionPane.showMessageDialog(this, "Empleado registrado con éxito.");
+                
+                Login login = new Login();
+                login.setLocationRelativeTo(null);
+                login.setVisible(true);
+                this.dispose();
+            
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnGuardar1ActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
