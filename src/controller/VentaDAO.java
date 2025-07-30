@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.DetalleVenta;
 import model.Venta;
-import controller.AsientoDAO;
-import controller.BoletoDAO;
+
 
 public class VentaDAO {
 
@@ -26,22 +25,22 @@ public class VentaDAO {
                 psVenta.setString(1, venta.getDniCliente());
                 psVenta.setString(2, venta.getDniEmpleado());
                 psVenta.setInt(3, venta.getIdFuncion());
-                psVenta.setTimestamp(4, venta.getFechaCompra());
+                psVenta.setTimestamp(4, venta.getFechaVenta());
 
                 psVenta.executeUpdate();
 
                 ResultSet generatedKeys = psVenta.getGeneratedKeys();
-                int idCompraGenerada = -1;
+                int idVentaGenerado = -1;
 
                 if (generatedKeys.next()) {
-                    idCompraGenerada = generatedKeys.getInt(1);
+                    idVentaGenerado = generatedKeys.getInt(1);
                 } else {
                     throw new SQLException("No se pudo obtener el ID de la venta generada.");
                 }
 
               
                 for (DetalleVenta det : venta.getDetalles()) {
-                    psDetalle.setInt(1, idCompraGenerada);
+                    psDetalle.setInt(1, idVentaGenerado);
                     psDetalle.setInt(2, det.getIdBoleto());
                     psDetalle.setInt(3, det.getCantidad());
                     psDetalle.setInt(4, det.getIdAsiento());
@@ -79,7 +78,7 @@ public class VentaDAO {
                     .setDniCliente(rs.getString("dni_cliente"))
                     .setDniEmpleado(rs.getString("dni_empleado"))
                     .setIdFuncion(rs.getInt("id_funcion"))
-                    .setFechaCompra(rs.getTimestamp("fecha_venta"))
+                    .setFechaVenta(rs.getTimestamp("fecha_venta"))
                     .setDetalles(obtenerDetallesVenta(rs.getInt("id_venta"), conn))
                     .build();
 
@@ -92,18 +91,52 @@ public class VentaDAO {
 
         return ventas;
     }
+    
+        public List<Venta> obtenerVentasInner() {
+       List<Venta> ventas = new ArrayList<>();
+        String sql = "SELECT v.id_venta, v.dni_cliente, v.dni_empleado, v.id_funcion, v.fecha_venta, p.titulo " +
+                     "FROM ventas v " +
+                     "JOIN funciones f ON v.id_funcion = f.id_funcion " +
+                     "JOIN peliculas p ON f.id_pelicula = p.id_pelicula " +
+                     "ORDER BY v.id_venta DESC";
 
-    private List<DetalleVenta> obtenerDetallesVenta(int idCompra, Connection conn) throws SQLException {
+        try (
+            Connection conn = ConnectionDB.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+            while (rs.next()) {
+                Venta venta = new Venta.Builder()
+                    .setIdVenta(rs.getInt("id_venta"))
+                    .setDniCliente(rs.getString("dni_cliente"))
+                    .setDniEmpleado(rs.getString("dni_empleado"))
+                    .setIdFuncion(rs.getInt("id_funcion"))
+                    .setFechaVenta(rs.getTimestamp("fecha_venta"))
+                    .setTituloPelicula(rs.getString("titulo"))  
+                    .setDetalles(obtenerDetallesVenta(rs.getInt("id_venta"), conn))
+                    .build();
+
+                ventas.add(venta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ventas;
+    }
+
+
+    private List<DetalleVenta> obtenerDetallesVenta(int idVenta, Connection conn) throws SQLException {
         List<DetalleVenta> detalles = new ArrayList<>();
         String sql = "SELECT * FROM detalles_venta WHERE id_venta = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idCompra);
+            ps.setInt(1, idVenta);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     DetalleVenta detalle = new DetalleVenta.Builder()
-                        .setIdDetalleCompra(rs.getInt("id_detalle_venta"))
-                        .setIdCompra(rs.getInt("id_venta"))
+                        .setIdDetalleVenta(rs.getInt("id_detalle_venta"))
+                        .setIdVenta(rs.getInt("id_venta"))
                         .setIdBoleto(rs.getInt("id_boleto"))
                         .setCantidad(rs.getInt("cantidad"))
                         .setIdAsiento(rs.getInt("id_asiento"))
@@ -158,6 +191,5 @@ public class VentaDAO {
         }
         return lista;
     }
-
 
 }

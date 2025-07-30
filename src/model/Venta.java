@@ -1,4 +1,3 @@
-
 package model;
 
 import java.sql.Timestamp;
@@ -10,10 +9,12 @@ public class Venta {
     private String dniCliente;
     private String dniEmpleado;
     private int idFuncion;
+    private String tituloFuncion;  
     private Timestamp fechaVenta;
+    
+    private String tituloPelicula; 
     private List<DetalleVenta> detalles;
 
-  
     public int getIdVenta() { return idVenta; }
     public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
 
@@ -26,13 +27,18 @@ public class Venta {
     public int getIdFuncion() { return idFuncion; }
     public void setIdFuncion(int idFuncion) { this.idFuncion = idFuncion; }
 
-    public Timestamp getFechaCompra() { return fechaVenta; }
-    public void setFechaCompra(Timestamp fechaCompra) { this.fechaVenta = fechaCompra; }
+    public String getTituloFuncion() { return tituloFuncion; }           
+    public void setTituloFuncion(String tituloFuncion) { this.tituloFuncion = tituloFuncion; }  
 
+    public Timestamp getFechaVenta() { return fechaVenta; }
+    public void setFechaVenta(Timestamp fechaVenta) { this.fechaVenta = fechaVenta; }
+
+    public String getTituloPelicula() { return tituloPelicula; }
+    public void setTituloPelicula(String tituloPelicula) { this.tituloPelicula = tituloPelicula; }
+    
     public List<DetalleVenta> getDetalles() { return detalles; }
     public void setDetalles(List<DetalleVenta> detalles) { this.detalles = detalles; }
 
-    
     public static class Builder {
         private final Venta venta;
 
@@ -60,8 +66,19 @@ public class Venta {
             return this;
         }
 
-        public Builder setFechaCompra(Timestamp fechaCompra) {
-            venta.setFechaCompra(fechaCompra);
+        public Builder setTituloFuncion(String tituloFuncion) {  
+            venta.setTituloFuncion(tituloFuncion);
+            return this;
+        }
+
+        public Builder setFechaVenta(Timestamp fechaVenta) {
+            venta.setFechaVenta(fechaVenta);
+            return this;
+        }
+        
+        
+        public Builder setTituloPelicula(String tituloPelicula) {
+            venta.setTituloPelicula(tituloPelicula);
             return this;
         }
 
@@ -73,6 +90,5 @@ public class Venta {
         public Venta build() {
             return venta;
         }
-    }  
-   
+    }
 }

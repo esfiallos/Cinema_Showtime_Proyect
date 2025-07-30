@@ -30,6 +30,10 @@ public class VentaService {
         return ventaDAO.obtenerVentas();
     }
     
+    public List<Venta> obtenerVentasInner() {
+        return ventaDAO.obtenerVentasInner();
+    }
+    
     // Aquí los métodos nuevos para obtener listas con formato "id - descripción"
     public List<String> obtenerListaBoletos() {
         List<String> lista = new ArrayList<>();

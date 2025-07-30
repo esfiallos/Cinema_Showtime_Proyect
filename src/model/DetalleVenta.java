@@ -4,17 +4,17 @@ package model;
 
 public class DetalleVenta {
     
-     private int idDetalleCompra;
-    private int idCompra;
+    private int idDetalleVenta;  // Antes: idDetalleCompra
+    private int idVenta;    
     private int idBoleto;
     private int cantidad;
     private int idAsiento;
 
-    public int getIdDetalleCompra() { return idDetalleCompra; }
-    public void setIdDetalleCompra(int idDetalleCompra) { this.idDetalleCompra = idDetalleCompra; }
+    public int getIdDetalleVenta() { return idDetalleVenta; }
+    public void setIdDetalleVenta(int idDetalleVenta) { this.idDetalleVenta = idDetalleVenta; }
 
-    public int getIdCompra() { return idCompra; }
-    public void setIdCompra(int idCompra) { this.idCompra = idCompra; }
+    public int getIdVenta() { return idVenta; }
+    public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
 
     public int getIdBoleto() { return idBoleto; }
     public void setIdBoleto(int idBoleto) { this.idBoleto = idBoleto; }
@@ -32,13 +32,13 @@ public class DetalleVenta {
             d = new DetalleVenta();
         }
 
-        public Builder setIdDetalleCompra(int idDetalleCompra) {
-            d.setIdDetalleCompra(idDetalleCompra);
+        public Builder setIdDetalleVenta(int idDetalleVenta) {
+            d.setIdDetalleVenta(idDetalleVenta);
             return this;
         }
 
-        public Builder setIdCompra(int idCompra) {
-            d.setIdCompra(idCompra);
+        public Builder setIdVenta(int idVenta) {
+            d.setIdVenta(idVenta);
             return this;
         }
 
