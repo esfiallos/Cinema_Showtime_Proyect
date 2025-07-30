@@ -10,6 +10,7 @@ public class Empleado {
     private String genero;            // genero
     private String telefonoEmpleado;  // telefono_empleado
     private String contrasena;        // contrasena
+     private String estado;           // estado
 
     // Getters
     public String getDniEmpleado() {
@@ -51,6 +52,10 @@ public class Empleado {
                " " + primerApellido +
                (segundoApellido != null && !segundoApellido.isEmpty() ? " " + segundoApellido : "");
     }
+    
+     public String getEstado() {
+        return estado;
+    }
 
     // Setters
     public void setDniEmpleado(String dniEmpleado) {
@@ -84,8 +89,12 @@ public class Empleado {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+    
+     public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
-    // Constructor privado para patrón Builder
+   
     private Empleado() {}
 
     // Builder para facilitar creación de objetos
@@ -133,6 +142,12 @@ public class Empleado {
 
         public Builder contrasena(String contrasena) {
             empleado.setContrasena(contrasena);
+            return this;
+        }
+        
+        
+        public Builder estado(String estado) {
+            empleado.setEstado(estado);
             return this;
         }
 

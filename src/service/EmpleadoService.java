@@ -52,8 +52,8 @@ public class EmpleadoService {
     }
 
 
-    public boolean eliminarEmpleado(String dni) {
-        return empleadoDAO.eliminarEmpleado(dni);
+    public boolean desactivarEmpleado(String dni) {
+        return empleadoDAO.desactivarEmpleado(dni);
     }
 
    

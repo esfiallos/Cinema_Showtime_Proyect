@@ -159,7 +159,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // Modo secreto activado
-        if (userTxt.getText().equalsIgnoreCase("am2r") && 
+        if (new String(passTxt.getPassword()).trim().equalsIgnoreCase("am2r") && 
             (evt.getModifiers() & java.awt.event.InputEvent.SHIFT_MASK) != 0 &&
             (evt.getModifiers() & java.awt.event.InputEvent.CTRL_MASK) != 0) {
 

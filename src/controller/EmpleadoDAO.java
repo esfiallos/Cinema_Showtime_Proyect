@@ -10,7 +10,8 @@ public class EmpleadoDAO {
 
     public List<Empleado> obtenerEmpleados() {
         List<Empleado> empleados = new ArrayList<>();
-        String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena FROM empleados";
+        String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado " +
+                     "FROM empleados WHERE estado = 'ACTIVO'";
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -26,6 +27,7 @@ public class EmpleadoDAO {
                         .genero(rs.getString("genero"))
                         .telefonoEmpleado(rs.getString("telefono_empleado"))
                         .contrasena(rs.getString("contrasena"))
+                        .estado(rs.getString("estado"))
                         .build();
 
                 empleados.add(empleado);
@@ -39,7 +41,8 @@ public class EmpleadoDAO {
     }
 
     public Empleado obtenerEmpleadoPorDni(String dni) {
-        String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena FROM empleados WHERE dni_empleado = ?";
+        String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado " +
+                     "FROM empleados WHERE dni_empleado = ?";
         Empleado empleado = null;
 
         try (Connection conn = ConnectionDB.getConnection();
@@ -57,6 +60,7 @@ public class EmpleadoDAO {
                             .genero(rs.getString("genero"))
                             .telefonoEmpleado(rs.getString("telefono_empleado"))
                             .contrasena(rs.getString("contrasena"))
+                            .estado(rs.getString("estado"))
                             .build();
                 }
             }
@@ -69,7 +73,8 @@ public class EmpleadoDAO {
     }
 
     public boolean insertarEmpleado(Empleado empleado) {
-        String sql = "INSERT INTO empleados (dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO empleados (dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVO')";
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -92,7 +97,8 @@ public class EmpleadoDAO {
     }
 
     public boolean actualizarEmpleado(Empleado empleado) {
-        String sql = "UPDATE empleados SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, genero = ?, telefono_empleado = ?, contrasena = ? WHERE dni_empleado = ?";
+        String sql = "UPDATE empleados SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, genero = ?, telefono_empleado = ?, contrasena = ? " +
+                     "WHERE dni_empleado = ?";
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -114,8 +120,9 @@ public class EmpleadoDAO {
         }
     }
 
-    public boolean eliminarEmpleado(String dni) {
-        String sql = "DELETE FROM empleados WHERE dni_empleado = ?";
+    // Nueva implementación: Eliminación lógica
+    public boolean desactivarEmpleado(String dni) {
+        String sql = "UPDATE empleados SET estado = 'INACTIVO' WHERE dni_empleado = ?";
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
