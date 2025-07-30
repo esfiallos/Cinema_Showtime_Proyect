@@ -1,4 +1,3 @@
-
 package controller;
 
 import model.Funcion;
@@ -8,134 +7,147 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FuncionDAO {
-    public List<Funcion> obtenerTodas() {
-        List<Funcion> lista = new ArrayList<>();
-        String sql = "SELECT * FROM funciones";
 
-        try (Connection conn = ConnectionDB.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        // Obtiene todas las funciones básicas (sin joins)
+        public List<Funcion> obtenerTodas() {
+            List<Funcion> lista = new ArrayList<>();
+            String sql = "SELECT * FROM funciones";
 
-            while (rs.next()) {
-                Funcion funcion = new Funcion.Builder()
-                    .setIdFuncion(rs.getInt("id_funcion"))
-                    .setIdPelicula(rs.getInt("id_pelicula"))
-                    .setIdSala(rs.getInt("id_sala"))
-                    .setFechaFuncion(rs.getDate("fecha_funcion"))
-                    .setHoraInicio(rs.getTime("hora_inicio"))
-                    .setTipoProyeccion(rs.getString("tipo_proyeccion"))
-                    .build();
-                
-                lista.add(funcion);
+            try (Connection conn = ConnectionDB.getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+
+                while (rs.next()) {
+                    Funcion funcion = new Funcion.Builder()
+                        .idFuncion(rs.getInt("id_funcion"))
+                        .idPelicula(rs.getInt("id_pelicula"))
+                        .fechaFuncion(rs.getTimestamp("fecha_funcion"))
+                        .horaInicio(rs.getTime("hora_inicio"))
+                        .tipoProyeccion(rs.getString("tipo_proyeccion"))
+                        .build();
+
+                    lista.add(funcion);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return lista;
         }
 
-        return lista;
-    }
+        // Obtiene funciones con el título de la película mediante join
+        public List<Funcion> obtenerTodasInner() {
+            List<Funcion> lista = new ArrayList<>();
 
-    public boolean insertar(Funcion f) {
-        String sql = "INSERT INTO funciones (id_pelicula, id_sala, fecha_funcion, hora_inicio, tipo_proyeccion) VALUES (?, ?, ?, ?, ?)";
+            String sql = "SELECT f.id_funcion, f.id_pelicula, f.fecha_funcion, f.hora_inicio, f.tipo_proyeccion, " +
+                         "p.titulo AS titulo_pelicula " +
+                         "FROM funciones f " +
+                         "JOIN peliculas p ON f.id_pelicula = p.id_pelicula " +
+                         "ORDER BY f.fecha_funcion, f.hora_inicio";
 
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (Connection conn = ConnectionDB.getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
 
-            ps.setInt(1, f.getIdPelicula());
-            ps.setInt(2, f.getIdSala());
-            ps.setDate(3, f.getFechaFuncion());
-            ps.setTime(4, f.getHoraInicio());
-            ps.setString(5, f.getTipoProyeccion());
+                while (rs.next()) {
+                    Funcion funcion = new Funcion.Builder()
+                        .idFuncion(rs.getInt("id_funcion"))
+                        .idPelicula(rs.getInt("id_pelicula"))
+                        .fechaFuncion(rs.getTimestamp("fecha_funcion"))
+                        .horaInicio(rs.getTime("hora_inicio"))
+                        .tipoProyeccion(rs.getString("tipo_proyeccion"))
+                        // Supongamos que agregas estos atributos a tu modelo Funcion
+                        .tituloPelicula(rs.getString("titulo_pelicula"))
+                        .build();
 
-            return ps.executeUpdate() > 0;
+                    lista.add(funcion);
+                }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean actualizar(Funcion f) {
-        String sql = "UPDATE funciones SET id_pelicula = ?, id_sala = ?, fecha_funcion = ?, hora_inicio = ?, tipo_proyeccion = ? WHERE id_funcion = ?";
-
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, f.getIdPelicula());
-            ps.setInt(2, f.getIdSala());
-            ps.setDate(3, f.getFechaFuncion());
-            ps.setTime(4, f.getHoraInicio());
-            ps.setString(5, f.getTipoProyeccion());
-            ps.setInt(6, f.getIdFuncion());
-
-            return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean eliminar(int idFuncion) {
-        String sql = "DELETE FROM funciones WHERE id_funcion = ?";
-
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, idFuncion);
-            return ps.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-    
-    
-    public List<Funcion> obtenerFuncionesINNER() {
-    List<Funcion> lista = new ArrayList<>();
-
-        String sql = "SELECT f.id_funcion, f.id_pelicula, f.id_sala, "
-                + "f.fecha_funcion, f.hora_inicio, f.tipo_proyeccion, "
-                + "p.titulo AS titulo_pelicula, "
-                + " s.nombre_sala AS nombre_sala "
-            + " FROM funciones f "
-            + " JOIN peliculas p ON f.id_pelicula = p.id_pelicula "
-            + " JOIN salas s ON f.id_sala = s.id_sala "
-            + " ORDER BY f.fecha_funcion, f.hora_inicio";
-
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Funcion funcion = new Funcion.Builder()
-                    .setIdFuncion(rs.getInt("id_funcion"))
-                    .setIdPelicula(rs.getInt("id_pelicula"))
-                    .setIdSala(rs.getInt("id_sala"))
-                    .setFechaFuncion(rs.getDate("fecha_funcion"))
-                    .setHoraInicio(rs.getTime("hora_inicio"))
-                    .setTipoProyeccion(rs.getString("tipo_proyeccion"))
-                    .setTituloPelicula(rs.getString("titulo_pelicula"))
-                    .setNombreSala(rs.getString("nombre_sala"))
-                    .build();
-
-                lista.add(funcion);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException e) {
+            return lista;
+        }
+
+        public boolean insertar(Funcion f) {
+            String sql = "INSERT INTO funciones (id_pelicula, fecha_funcion, hora_inicio, tipo_proyeccion) VALUES (?, ?, ?, ?)";
+
+            try (Connection conn = ConnectionDB.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setInt(1, f.getIdPelicula());
+                ps.setTimestamp(2, f.getFechaFuncion());
+                ps.setTime(3, f.getHoraInicio());
+                ps.setString(4, f.getTipoProyeccion());
+
+                return ps.executeUpdate() > 0;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        public boolean actualizar(Funcion f) {
+            String sql = "UPDATE funciones SET id_pelicula = ?, fecha_funcion = ?, hora_inicio = ?, tipo_proyeccion = ? WHERE id_funcion = ?";
+
+            try (Connection conn = ConnectionDB.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setInt(1, f.getIdPelicula());
+                ps.setTimestamp(2, f.getFechaFuncion());
+                ps.setTime(3, f.getHoraInicio());
+                ps.setString(4, f.getTipoProyeccion());
+                ps.setInt(5, f.getIdFuncion());
+
+                return ps.executeUpdate() > 0;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        public boolean eliminar(int idFuncion) {
+            String sql = "DELETE FROM funciones WHERE id_funcion = ?";
+
+            try (Connection conn = ConnectionDB.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setInt(1, idFuncion);
+                return ps.executeUpdate() > 0;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+    public List<String> obtenerTiposProyeccion() {
+             List<String> tipos = new ArrayList<>();
+        String sql = "SELECT DISTINCT tipo_proyeccion FROM funciones";
+
+        try (Connection con = ConnectionDB.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                tipos.add(rs.getString("tipo_proyeccion"));
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return lista;
+        return tipos;
     }
-
 }

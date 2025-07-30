@@ -27,7 +27,7 @@ public class Ventas extends javax.swing.JInternalFrame {
     
     
     private void cargarFunciones() {
-        List<model.Funcion> funciones = serviceFuncion.obtenerFuncionesINNER();
+        List<model.Funcion> funciones = serviceFuncion.obtenerTodasInner();
         comboFuncion.removeAllItems();
         for (model.Funcion f : funciones) {
             comboFuncion.addItem(f.getIdFuncion()+ " - " + f.getNombreSala());

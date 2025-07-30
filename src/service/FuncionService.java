@@ -31,8 +31,12 @@ public class FuncionService {
         return funcionDAO.eliminar(idFuncion);
     }
     
-    public List<Funcion> obtenerFuncionesINNER() {
-         return funcionDAO.obtenerFuncionesINNER();
-}
+    public List<Funcion> obtenerTodasInner(){
+        return funcionDAO.obtenerTodasInner();
+    }
+
+    public List<String> obtenerTiposProyeccion() {
+            return funcionDAO.obtenerTiposProyeccion();
+    }
 
 }

@@ -28,7 +28,6 @@ public class LoginDAO {
                         .primerApellido(rs.getString("primer_apellido"))
                         .segundoApellido(rs.getString("segundo_apellido"))
                         .genero(rs.getString("genero"))
-                        .idCine(rs.getInt("id_cine"))
                         .telefonoEmpleado(rs.getString("telefono_empleado"))
                         .contrasena(rs.getString("contrasena"))
                         .build();

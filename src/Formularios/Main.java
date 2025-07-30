@@ -4,6 +4,7 @@ package Formularios;
 import bd.ConnectionDB;
 import java.awt.EventQueue;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public class Main {
@@ -22,13 +23,13 @@ public class Main {
         
         // Precalentamiento de Hikari
            new Thread(  () -> {
-            try {
-                Connection con = ConnectionDB.getConnection();
-                con.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            } ).start();
+               try {
+                   Connection con = ConnectionDB.getConnection();
+                   con.close();
+               } catch (SQLException e) {
+                   e.printStackTrace();
+               }
+           }).start();
            
          //Lamda, ejecucion de Formulario  
         EventQueue.invokeLater( () -> { new Login().setVisible(true); }  );
