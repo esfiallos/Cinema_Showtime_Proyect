@@ -3,7 +3,7 @@ package Formularios;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import model.Empleado;
-import service.LoginService;
+import service.EmpleadoService;
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -181,8 +181,10 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
-        LoginService loginService = new LoginService();
-        Empleado empleado = loginService.login(dni, contrasena);
+         
+        EmpleadoService empleadoService = new EmpleadoService();
+        Empleado empleado = empleadoService.login(dni, contrasena);
+   
 
         if (empleado != null) {
  

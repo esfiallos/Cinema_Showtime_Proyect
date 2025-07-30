@@ -23,6 +23,15 @@ public class EmpleadoService {
     public Empleado obtenerEmpleadoPorDni(String dni) {
         return empleadoDAO.obtenerEmpleadoPorDni(dni);
     }
+    
+    public Empleado login(String dni, String contrasena) {
+        Empleado empleado = empleadoDAO.obtenerEmpleadoPorDni(dni);
+        if (empleado != null && BCrypt.checkpw(contrasena, empleado.getContrasena())) {
+            return empleado;
+        }
+        return null;
+    }
+
 
   
     public boolean insertarEmpleado(Empleado empleado, String contraseñaPlain) {
