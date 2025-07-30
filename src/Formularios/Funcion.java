@@ -10,7 +10,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 import model.Pelicula;
-import model.Sala;
 import service.FuncionService;
 import service.PeliculaService;
 

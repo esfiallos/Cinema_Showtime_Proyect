@@ -1,12 +1,10 @@
 
 package Formularios;
 
-import controller.CineDAO;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Cine;
 import model.Cliente;
 import service.ClienteService;
 
@@ -19,7 +17,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         initComponents();
         cargarDatosClientes();
         cargarGeneroCombo();
-        cargarCinesCombo();
     }
     
     private void cargarDatosClientes() {
@@ -37,8 +34,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                 cliente.getSegundoApellido(),
                 cliente.getTelefonoCliente(),
                 cliente.getCorreoCliente(),
-                cliente.getGenero(),
-                cliente.getCineFavorito()
+                cliente.getGenero()
             });
         }
     }
@@ -49,17 +45,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
          comboGenero.setModel(modelo);
     }
     
-     private void cargarCinesCombo() {
-        CineDAO cinesDAO = new CineDAO();
-        List<Cine> listado = cinesDAO.obtenerTodosLosCines();
-
-
-        for (Cine c : listado) {
-            comboCine.addItem(c.getNombreCine() + " (ID: " + c.getIdCine() + ")");
-        }
-      
-        
-    }
 
 
     @SuppressWarnings("unchecked")
@@ -82,7 +67,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -97,7 +81,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         txtCorreo = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         comboGenero = new javax.swing.JComboBox<>();
-        comboCine = new javax.swing.JComboBox<>();
         txtPrimerApellido = new javax.swing.JTextField();
         txtSegundoNombre = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -159,13 +142,13 @@ public class DatosClientes extends javax.swing.JInternalFrame {
 
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "DNI", "Primer Nombre", "Segundo Nombre", "Apellido", "Segundo Apellido", "Telefono", "Correo", "Genero", "Cine Favorito"
+                "DNI", "Primer Nombre", "Segundo Nombre", "Apellido", "Segundo Apellido", "Telefono", "Correo", "Genero"
             }
         ));
         tablaClientes.setPreferredSize(new java.awt.Dimension(1130, 660));
@@ -184,9 +167,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Telefono:");
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setText("Cine:");
 
         btnGuardar.setBackground(new java.awt.Color(17, 85, 153));
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -330,7 +310,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
@@ -340,14 +320,11 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel10))
+                                        .addComponent(jLabel8)
                                         .addGap(28, 28, 28)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(comboCine, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGap(100, 100, 100)
                                                 .addComponent(folio1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(comboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -434,10 +411,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(folio1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel10)
-                                            .addComponent(comboCine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(folio1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(11, 11, 11)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -471,7 +445,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(59, 59, 59)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,7 +470,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -568,14 +542,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         String telefono = txtTelefono.getText();
         String correo = txtCorreo.getText();
         
-        String seleccionado = (String) comboCine.getSelectedItem();
-        int idCine = -1;
-        if (seleccionado != null && seleccionado.contains("ID: ")) {
-            int start = seleccionado.indexOf("ID: ") + 4;
-            int end = seleccionado.indexOf(")", start);
-            idCine = Integer.parseInt(seleccionado.substring(start, end));
-        
-        
 
             Cliente cliente = new Cliente.Builder()
                         .setDniCliente(DNI)
@@ -586,7 +552,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                         .setGenero(genero)
                         .setCorreoCliente(correo)
                         .setTelefonoCliente(telefono)
-                        .setCineFavorito(idCine)
                         .build();
 
             boolean actualizado = serviceCliente.modificar(cliente);
@@ -598,7 +563,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Error al actualizar.");
             }
-        }
+        
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -613,12 +578,6 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         String correo = txtCorreo.getText();
         
         
-        String seleccionado = (String) comboCine.getSelectedItem();
-        int idCine = -1;
-        if (seleccionado != null && seleccionado.contains("ID: ")) {
-            int start = seleccionado.indexOf("ID: ") + 4;
-            int end = seleccionado.indexOf(")", start);
-            idCine = Integer.parseInt(seleccionado.substring(start, end));
             
        
             Cliente cliente = new Cliente.Builder()
@@ -630,25 +589,19 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                     .setGenero(genero)
                     .setCorreoCliente(correo)
                     .setTelefonoCliente(telefono)
-                    .setCineFavorito(idCine)
                     .build();
             
             boolean seGuardo = serviceCliente.guardar(cliente);
             
              if (seGuardo) {
-                JOptionPane.showMessageDialog(this, "Película guardada con éxito");
+                JOptionPane.showMessageDialog(this, "Cliente guardado");
                 limpiarCampos();
                 cargarDatosClientes();
         } else {
             JOptionPane.showMessageDialog(this, "Error al guardar la película");
         }
             
-            
-}
-
-        
-        
-        
+     
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
@@ -667,12 +620,10 @@ public class DatosClientes extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> comboCine;
     private javax.swing.JComboBox<String> comboGenero;
     private javax.swing.JTextField folio1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
