@@ -36,4 +36,8 @@ public class ClienteService {
     public List<Cliente> obtenerClientes() {
         return clienteDAO.obtenerTodosClientes();
     }
+    
+      public List<Cliente> buscarClientes(String texto) {
+        return clienteDAO.buscarPorNombreOApellido(texto);
+    }
 }

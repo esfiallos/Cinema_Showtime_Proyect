@@ -17,6 +17,10 @@ public class PeliculaService {
     public List<Pelicula> obtenerTodasLasPeliculas() {
         return peliculaDAO.listarPeliculas();
     }
+    
+    public List<Pelicula> buscarPeliculas(String titulo) {
+        return peliculaDAO.buscarPorTitulo(titulo);
+    }
 
     public boolean guardar(Pelicula pelicula) {
         return peliculaDAO.guardar(pelicula);

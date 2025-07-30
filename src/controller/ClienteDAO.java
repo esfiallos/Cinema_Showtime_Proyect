@@ -95,6 +95,37 @@ public class ClienteDAO {
         }
         return null;
     }
+    
+    public List<Cliente> buscarPorNombreOApellido(String texto) {
+        List<Cliente> clientes = new ArrayList<>();
+
+        String sql = "SELECT * FROM clientes WHERE "
+                   + "primer_nombre LIKE ? OR "
+                   + "segundo_nombre LIKE ? OR "
+                   + "primer_apellido LIKE ? OR "
+                   + "segundo_apellido LIKE ?";
+
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            String parametro = "%" + texto + "%";
+            ps.setString(1, parametro);
+            ps.setString(2, parametro);
+            ps.setString(3, parametro);
+            ps.setString(4, parametro);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    clientes.add(mapearCliente(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientes;
+    }
+
 
     public List<Cliente> obtenerTodosClientes() {
         List<Cliente> clientes = new ArrayList<>();

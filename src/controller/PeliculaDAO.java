@@ -42,7 +42,18 @@ public class PeliculaDAO {
     
     private static final String SQL_ID = "SELECT MAX(id_pelicula) FROM peliculas" ;
 
+    
+    private static final String SQL_BUSCAR = 
+            "SELECT p.id_pelicula, p.titulo, p.director, p.sinopsis, " +
+            "p.restriccion_edad, p.fecha_estreno, " +
+            "GROUP_CONCAT(g.nombre_genero SEPARATOR ',') AS generos " +
+            "FROM peliculas p " +
+            "LEFT JOIN peliculas_genero pg ON p.id_pelicula = pg.id_pelicula " +
+            "LEFT JOIN generos g ON pg.id_genero = g.id_genero " +
+            "WHERE p.titulo LIKE ? " +
+            "GROUP BY p.id_pelicula, p.titulo, p.director, p.sinopsis, p.restriccion_edad, p.fecha_estreno";
 
+    
     public List<Pelicula> listarPeliculas() {
         List<Pelicula> lista = new ArrayList<>();
         try (Connection con = ConnectionDB.getConnection();
@@ -66,6 +77,37 @@ public class PeliculaDAO {
         }
         return lista;
     }
+    
+    
+    public List<Pelicula> buscarPorTitulo(String nombreParcial) {
+        List<Pelicula> lista = new ArrayList<>();
+        
+
+        try (Connection con = ConnectionDB.getConnection();
+             PreparedStatement ps = con.prepareStatement(SQL_BUSCAR)) {
+
+            ps.setString(1, "%" + nombreParcial + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Pelicula pelicula = new Pelicula.Builder()
+                            .setIdPelicula(rs.getInt("id_pelicula"))
+                            .setTitulo(rs.getString("titulo"))
+                            .setDirector(rs.getString("director"))
+                            .setSinopsis(rs.getString("sinopsis"))
+                            .setRestriccionEdad(rs.getString("restriccion_edad"))
+                            .setFechaEstreno(rs.getDate("fecha_estreno"))
+                            .setGeneros(Arrays.asList(rs.getString("generos").split(",")))
+                            .build();
+                    lista.add(pelicula);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
 
     public boolean guardar(Pelicula pelicula) {
         try (Connection con = ConnectionDB.getConnection();
