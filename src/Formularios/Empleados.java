@@ -336,6 +336,10 @@ public class Empleados extends javax.swing.JFrame {
 
         if (seGuardo) {
             JOptionPane.showMessageDialog(this, "Empleado guardado correctamente.");
+            
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
 
         } else {
             JOptionPane.showMessageDialog(this, "Error al guardar el empleado.");
