@@ -347,7 +347,7 @@ public class Empleados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar1ActionPerformed
-             String dni = txtDNI.getText().trim();
+        String dni = txtDNI.getText().trim();
         String primerNombre = txtPrimerNombre.getText().trim();
         String segundoNombre = txtSegundoNombre.getText().trim();
         String primerApellido = txtPrimerApellido.getText().trim();
