@@ -10,8 +10,17 @@ import java.util.ArrayList;
 import model.Cliente;
 import java.util.List;
 
+/**
+ * Clase DAO que gestiona las operaciones CRUD sobre la tabla de clientes en la base de datos.
+ */
 public class ClienteDAO {
 
+     /**
+     * Inserta un nuevo cliente en la base de datos.
+     *
+     * @param cliente Objeto Cliente que contiene los datos a insertar.
+     * @return true si la operación fue exitosa, false en caso contrario.
+     */
     public boolean insertar(Cliente cliente) {
         String sql = "INSERT INTO clientes (dni_cliente, primer_nombre, segundo_nombre, "
                 + "primer_apellido, segundo_apellido, genero, correo_cliente, telefono_cliente) "
@@ -37,6 +46,12 @@ public class ClienteDAO {
         }
     }
 
+     /**
+     * Actualiza los datos de un cliente existente.
+     *
+     * @param cliente Objeto Cliente con los nuevos datos.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
     public boolean actualizar(Cliente cliente) {
         String sql = "UPDATE clientes SET primer_nombre = ?, segundo_nombre = ?, "
                 + "primer_apellido = ?, segundo_apellido = ?, genero = ?, correo_cliente = ?, "
@@ -62,6 +77,12 @@ public class ClienteDAO {
         }
     }
 
+    /**
+     * Elimina un cliente de la base de datos usando su DNI.
+     *
+     * @param dni DNI del cliente a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
     public boolean eliminar(String dni) {
         String sql = "DELETE FROM clientes WHERE dni_cliente = ?";
 
@@ -77,6 +98,12 @@ public class ClienteDAO {
         }
     }
 
+     /**
+     * Obtiene un cliente de la base de datos mediante su DNI.
+     *
+     * @param dni DNI del cliente a buscar.
+     * @return Objeto Cliente si se encuentra, null en caso contrario.
+     */
     public Cliente obtenerClientePorDni(String dni) {
         String sql = "SELECT * FROM clientes WHERE dni_cliente = ?";
 
@@ -96,6 +123,12 @@ public class ClienteDAO {
         return null;
     }
     
+     /**
+     * Busca clientes por coincidencia parcial en nombres o apellidos.
+     *
+     * @param texto Texto a buscar en los campos de nombre y apellido.
+     * @return Lista de clientes que coinciden con el texto de búsqueda.
+     */
     public List<Cliente> buscarPorNombreOApellido(String texto) {
         List<Cliente> clientes = new ArrayList<>();
 
@@ -127,6 +160,7 @@ public class ClienteDAO {
     }
 
 
+    
     public List<Cliente> obtenerTodosClientes() {
         List<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM clientes";
@@ -145,6 +179,13 @@ public class ClienteDAO {
         return clientes;
     }
 
+     /**
+     * Mapea los datos de un ResultSet a un objeto Cliente utilizando el patrón Builder.
+     *
+     * @param rs ResultSet con los datos del cliente.
+     * @return Objeto Cliente con los datos mapeados.
+     * @throws SQLException Si ocurre un error al acceder a los datos del ResultSet.
+     */
     private Cliente mapearCliente(ResultSet rs) throws SQLException {
         return new Cliente.Builder()
                 .setDniCliente(rs.getString("dni_cliente"))

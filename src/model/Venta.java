@@ -3,6 +3,10 @@ package model;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Modelo que representa una venta realizada en el sistema.
+ * Contiene información sobre el cliente, empleado, función, detalles y fecha de la venta.
+ */
 public class Venta {
 
     private int idVenta;
@@ -39,6 +43,9 @@ public class Venta {
     public List<DetalleVenta> getDetalles() { return detalles; }
     public void setDetalles(List<DetalleVenta> detalles) { this.detalles = detalles; }
 
+    /**
+     * Builder para facilitar la construcción de objetos Venta.
+     */
     public static class Builder {
         private final Venta venta;
 

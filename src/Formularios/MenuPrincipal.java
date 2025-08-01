@@ -14,6 +14,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     Color colorHover = new Color(255, 51, 102);  // Un rosa más claro para hover
     Color colorPressed = new Color(204, 0, 61);  // Más oscuro para pressed
 
+    /**
+    * Configura un JInternalFrame para que tenga una apariencia limpia y fija.
+    * Elimina el borde y la barra superior (north pane), además de deshabilitar
+    * la capacidad de redimensionar, cerrar, minimizar o maximizar el frame.
+    * 
+    * @param frame El JInternalFrame a configurar.
+    */
     private void configurarInternalFrame(javax.swing.JInternalFrame frame) {
     frame.setBorder(null); 
     ((javax.swing.plaf.basic.BasicInternalFrameUI) frame.getUI()).setNorthPane(null);
@@ -40,9 +47,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
-        botonPrincipal = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         botonFuncion = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -72,35 +76,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         Menu.setBackground(new java.awt.Color(17, 9, 22));
         Menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        botonPrincipal.setBackground(new java.awt.Color(255, 0, 76));
-        botonPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        botonPrincipal.setPreferredSize(new java.awt.Dimension(270, 70));
-        botonPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                botonPrincipalMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                botonPrincipalMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                botonPrincipalMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                botonPrincipalMouseReleased(evt);
-            }
-        });
-        botonPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Principal");
-        botonPrincipal.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, 30));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/imagenes/home32.png"))); // NOI18N
-        botonPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 50, 50));
-
-        Menu.add(botonPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, -1, 80));
 
         botonFuncion.setBackground(new java.awt.Color(255, 0, 76));
         botonFuncion.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -265,7 +240,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         app_name.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         app_name.setForeground(new java.awt.Color(255, 255, 255));
         app_name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/imagenes/Cinema_Showtime_100x100.png"))); // NOI18N
-        Menu.add(app_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 100, 100));
+        Menu.add(app_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 100, 100));
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
         Menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 190, 10));
@@ -379,28 +354,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonFuncionMouseClicked
 
-    private void botonPrincipalMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipalMousePressed
-         botonPrincipal.setBackground(colorPressed);
-    }//GEN-LAST:event_botonPrincipalMousePressed
-
-    private void botonPrincipalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipalMouseExited
-         botonPrincipal.setBackground(colorBase);
-    }//GEN-LAST:event_botonPrincipalMouseExited
-
-    private void botonPrincipalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipalMouseEntered
-         botonPrincipal.setBackground(colorHover);
-    }//GEN-LAST:event_botonPrincipalMouseEntered
-
-    private void botonPrincipalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPrincipalMouseReleased
-       
-        if (botonPrincipal.contains(evt.getPoint())) {
-            botonPrincipal.setBackground(colorHover);
-        } else {
-            botonPrincipal.setBackground(colorBase);
-        }
-    
-    }//GEN-LAST:event_botonPrincipalMouseReleased
-
     private void botonPeliculasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonPeliculasMouseReleased
         if (botonPeliculas.contains(evt.getPoint())) {
             botonPeliculas.setBackground(colorHover);
@@ -453,6 +406,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 }
 
+ /**
+ * Navega mostrando el JInternalFrame seleccionado en el escritorio.
+ * Limpia el escritorio, configura el frame (sin bordes ni controles),
+ * lo agrega al escritorio, ajusta su tamaño y posición para que
+ * no exceda el tamaño del escritorio y finalmente lo muestra.
+ *
+ * @param panelSeleccionado El JInternalFrame que se desea mostrar.
+ */
    private void navegar(JInternalFrame panelSeleccionado) {
       limpiarEscritorio();
          configurarInternalFrame(panelSeleccionado);
@@ -516,11 +477,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel botonAdministracion;
     private javax.swing.JPanel botonFuncion;
     private javax.swing.JPanel botonPeliculas;
-    private javax.swing.JPanel botonPrincipal;
     private javax.swing.JPanel botonReportes;
     private javax.swing.JPanel botonVentas;
     private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -528,7 +487,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

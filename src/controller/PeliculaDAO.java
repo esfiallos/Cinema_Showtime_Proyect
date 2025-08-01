@@ -12,6 +12,13 @@ import java.util.List;
 import model.Pelicula;
 
 
+/**
+ * DAO (Data Access Object) para gestionar las operaciones CRUD de las películas,
+ * incluyendo sus relaciones con los géneros correspondientes.
+ * 
+ * Las películas están relacionadas a través de una tabla intermedia 'peliculas_genero'
+ * con la tabla 'generos'. Este DAO se encarga también de manejar dicha relación.
+ */
 public class PeliculaDAO {
     
      private static final String SQL_LISTAR = 
@@ -53,7 +60,11 @@ public class PeliculaDAO {
             "WHERE p.titulo LIKE ? " +
             "GROUP BY p.id_pelicula, p.titulo, p.director, p.sinopsis, p.restriccion_edad, p.fecha_estreno";
 
-    
+    /**
+     * Lista todas las películas de la base de datos, incluyendo sus géneros asociados.
+     *
+     * @return Lista de objetos {@link Pelicula} con todos sus atributos poblados.
+     */
     public List<Pelicula> listarPeliculas() {
         List<Pelicula> lista = new ArrayList<>();
         try (Connection con = ConnectionDB.getConnection();
@@ -78,7 +89,12 @@ public class PeliculaDAO {
         return lista;
     }
     
-    
+    /**
+     * Busca películas por coincidencia parcial del título.
+     *
+     * @param nombreParcial Cadena de texto parcial a buscar en el título de la película.
+     * @return Lista de películas que coincidan parcial o totalmente con el título buscado.
+     */
     public List<Pelicula> buscarPorTitulo(String nombreParcial) {
         List<Pelicula> lista = new ArrayList<>();
         
@@ -108,7 +124,12 @@ public class PeliculaDAO {
         return lista;
     }
 
-
+    /**
+     * Guarda una nueva película junto con sus géneros asociados.
+     * 
+     * @param pelicula Objeto {@link Pelicula} con todos los datos a insertar.
+     * @return true si la operación fue exitosa, false en caso contrario.
+     */
     public boolean guardar(Pelicula pelicula) {
         try (Connection con = ConnectionDB.getConnection();
              PreparedStatement ps = con.prepareStatement(SQL_INSERT_PELICULA, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -145,7 +166,12 @@ public class PeliculaDAO {
         return false;
     }
     
-    
+    /**
+     * Actualiza los datos de una película existente, incluyendo la reasignación de géneros.
+     *
+     * @param pelicula Objeto {@link Pelicula} con los datos actualizados.
+     * @return true si la actualización fue exitosa, false si falló.
+     */
     public boolean modificar(Pelicula pelicula) {
         try (Connection con = ConnectionDB.getConnection();
              PreparedStatement ps = con.prepareStatement(SQL_UPDATE_PELICULA)) {
@@ -183,6 +209,12 @@ public class PeliculaDAO {
         return false;
     }
 
+    /**
+     * Elimina una película por su ID, incluyendo sus asociaciones con géneros.
+     *
+     * @param id Identificador único de la película a eliminar.
+     * @return true si se eliminó correctamente, false en caso contrario.
+     */
     public boolean eliminar(int id) {
         try (Connection con = ConnectionDB.getConnection()) {
             try (PreparedStatement psDel = con.prepareStatement(SQL_DELETE_GENEROS)) {
@@ -200,6 +232,13 @@ public class PeliculaDAO {
         return false;
     }
 
+    /**
+     * Método auxiliar privado que obtiene el ID de un género a partir de su nombre.
+     * 
+     * @param con Conexión activa a la base de datos.
+     * @param nombreGenero Nombre del género a buscar.
+     * @return ID del género si se encuentra, -1 si no existe.
+     */
     private int obtenerIdGeneroPorNombre(Connection con, String nombreGenero) {
         try (PreparedStatement ps = con.prepareStatement("SELECT id_genero FROM generos WHERE nombre_genero = ?")) {
             ps.setString(1, nombreGenero.trim());

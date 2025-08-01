@@ -39,6 +39,12 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         }
     }
     
+    /**
+    * Busca clientes que coincidan con el valor proporcionado y actualiza
+    * la tabla con los resultados.
+    *
+    * @param valor Texto a buscar en la lista de clientes.
+    */
      private void buscarClientes(String valor) {
         DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
         model.setRowCount(0); 
@@ -606,6 +612,12 @@ public class DatosClientes extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    /**
+    * Acción del botón Guardar. Recoge los datos del formulario, crea
+    * un nuevo cliente y lo guarda mediante el servicio.
+    *
+    * @param evt Evento del botón.
+    */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String DNI  = txtDNI.getText();
         String pNombre = txtPrimerNombre.getText();
@@ -638,7 +650,7 @@ public class DatosClientes extends javax.swing.JInternalFrame {
                 limpiarCampos();
                 cargarDatosClientes();
         } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar la película");
+            JOptionPane.showMessageDialog(this, "Error al guardar");
         }
             
      

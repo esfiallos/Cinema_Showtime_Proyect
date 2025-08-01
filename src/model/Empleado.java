@@ -1,5 +1,10 @@
 package model;
 
+
+/**
+ * Clase que representa a un Empleado en el sistema.
+ * Contiene información personal, de contacto y de acceso.
+ */
 public class Empleado {
 
     private String dniEmpleado;       // dni_empleado
@@ -45,7 +50,11 @@ public class Empleado {
         return contrasena;
     }
 
-    // Método para nombre completo
+     /**
+     * Genera el nombre completo del empleado, manejando nombres o apellidos nulos o vacíos.
+     *
+     * @return Nombre completo en formato "Nombre [SegundoNombre] Apellido [SegundoApellido]".
+     */
     public String getNombreCompleto() {
         return primerNombre +
                (segundoNombre != null && !segundoNombre.isEmpty() ? " " + segundoNombre : "") +
@@ -97,7 +106,9 @@ public class Empleado {
    
     private Empleado() {}
 
-    // Builder para facilitar creación de objetos
+     /**
+     * Clase interna Builder para construir instancias de {@link Empleado} de forma fluida.
+     */
     public static class Builder {
         private final Empleado empleado;
 
@@ -151,6 +162,11 @@ public class Empleado {
             return this;
         }
 
+         /**
+         * Construye y retorna el objeto {@link Empleado}.
+         *
+         * @return Instancia completamente configurada.
+         */
         public Empleado build() {
             return empleado;
         }

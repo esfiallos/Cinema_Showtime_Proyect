@@ -4,6 +4,11 @@ package model;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Representa una película con sus detalles básicos, como título, director, duración,
+ * sinopsis, restricción de edad, fecha de estreno y géneros asociados.
+ * Utiliza el patrón Builder para facilitar la creación de objetos.
+ */
 public class Pelicula {
     
     private int idPelicula;
@@ -37,6 +42,9 @@ public class Pelicula {
     
     
 
+    /**
+     * Builder para construir objetos Pelicula de forma fluida y clara.
+     */
     public static class Builder {
         private final Pelicula pelicula;
 
@@ -85,6 +93,10 @@ public class Pelicula {
             return this;
         }
 
+        /**
+         * Construye y retorna la instancia de Pelicula.
+         * @return objeto Pelicula construido.
+         */
         public Pelicula build() {
             return pelicula;
         }

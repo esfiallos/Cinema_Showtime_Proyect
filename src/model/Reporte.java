@@ -4,7 +4,11 @@ package model;
 import java.sql.Date;
 import java.sql.Time;
 
-
+/**
+ * Modelo que representa un reporte de una función de película.
+ * Contiene datos como la función, película asociada, fecha y hora, 
+ * total de boletos vendidos y monto recaudado.
+ */
 public class Reporte {
     
     private int idFuncion;

@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Representa un asiento dentro de una sala de cine o teatro.
+ * Contiene información como el número de asiento, fila, tipo y la sala a la que pertenece.
+ */
 public class Asiento {
     private int idAsiento;
     private int idSala;   
@@ -9,6 +13,15 @@ public class Asiento {
 
     public Asiento() {}
 
+     /**
+     * Constructor completo para inicializar todos los atributos del asiento.
+     *
+     * @param idAsiento     ID único del asiento.
+     * @param idSala        ID de la sala a la que pertenece el asiento.
+     * @param numero        Número del asiento.
+     * @param fila          Fila del asiento.
+     * @param tipoAsiento   Tipo de asiento (VIP, estándar, etc.).
+     */
     public Asiento(int idAsiento, int idSala, String numero, String fila, String tipoAsiento) {
         this.idAsiento = idAsiento;
         this.idSala = idSala;
@@ -21,6 +34,7 @@ public class Asiento {
         return idAsiento;
     }
 
+    
     public void setIdAsiento(int idAsiento) {
         this.idAsiento = idAsiento;
     }
@@ -57,6 +71,12 @@ public class Asiento {
         this.tipoAsiento = tipoAsiento;
     }
 
+    /**
+     * Representación en texto del objeto Asiento.
+     * Útil para mostrar en interfaces gráficas o logs.
+     *
+     * @return una cadena con el ID, número y fila del asiento.
+     */
     @Override
     public String toString() {
         return idAsiento + " - " + numero + " (" + fila + ")";

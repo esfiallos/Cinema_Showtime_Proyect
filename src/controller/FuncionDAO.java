@@ -11,9 +11,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para manejar operaciones CRUD relacionadas con funciones de películas.
+ * Proporciona métodos para insertar, actualizar, eliminar y consultar funciones.
+ */
+
 public class FuncionDAO {
 
-        // Obtiene todas las funciones básicas (sin joins)
+        /**
+        * Obtiene todas las funciones sin hacer joins con otras tablas.
+        *
+        * @return Lista de objetos {@link model.Funcion} obtenidos desde la tabla funciones.
+        */
         public List<Funcion> obtenerTodas() {
             List<Funcion> lista = new ArrayList<>();
             String sql = "SELECT * FROM funciones";
@@ -41,7 +50,11 @@ public class FuncionDAO {
             return lista;
         }
 
-        // Obtiene funciones con el título de la película mediante join
+        /**
+        * Obtiene todas las funciones, incluyendo el título de la película asociada mediante JOIN.
+        *
+        * @return Lista de objetos {@link model.Funcion} con información adicional del título de la película.
+        */
         public List<Funcion> obtenerTodasInner() {
             List<Funcion> lista = new ArrayList<>();
 
@@ -76,6 +89,12 @@ public class FuncionDAO {
             return lista;
         }
 
+        /**
+        * Inserta una nueva función en la base de datos.
+        *
+        * @param f Objeto {@link model.Funcion} que contiene los datos a insertar.
+        * @return true si la operación fue exitosa; false en caso contrario.
+        */
         public boolean insertar(Funcion f) {
             String sql = "INSERT INTO funciones (id_pelicula, fecha_funcion, hora_inicio, tipo_proyeccion) VALUES (?, ?, ?, ?)";
 
@@ -95,6 +114,13 @@ public class FuncionDAO {
 
             return false;
         }
+
+        /**
+        * Actualiza una función existente en la base de datos.
+        *
+        * @param f Objeto {@link model.Funcion} con los datos actualizados.
+        * @return true si la operación fue exitosa; false en caso contrario.
+        */
 
         public boolean actualizar(Funcion f) {
             String sql = "UPDATE funciones SET id_pelicula = ?, fecha_funcion = ?, hora_inicio = ?, tipo_proyeccion = ? WHERE id_funcion = ?";
@@ -117,6 +143,12 @@ public class FuncionDAO {
             return false;
         }
 
+        /**
+        * Elimina una función de la base de datos según su ID.
+        *
+        * @param idFuncion Identificador único de la función a eliminar.
+        * @return true si la operación fue exitosa; false en caso contrario.
+        */
         public boolean eliminar(int idFuncion) {
             String sql = "DELETE FROM funciones WHERE id_funcion = ?";
 
@@ -133,6 +165,11 @@ public class FuncionDAO {
             return false;
         }
 
+    /**
+    * Obtiene todos los tipos de proyección distintos disponibles en las funciones.
+    *
+    * @return Lista de cadenas con los tipos de proyección únicos registrados.
+    */
     public List<String> obtenerTiposProyeccion() {
              List<String> tipos = new ArrayList<>();
         String sql = "SELECT DISTINCT tipo_proyeccion FROM funciones";

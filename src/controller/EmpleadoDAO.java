@@ -6,8 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Empleado;
 
+/**
+ * Clase DAO que gestiona las operaciones relacionadas con los empleados en la base de datos.
+ * Utiliza eliminación lógica (estado ACTIVO/INACTIVO) en lugar de eliminar físicamente registros.
+ */
 public class EmpleadoDAO {
 
+     /**
+     * Obtiene una lista de todos los empleados cuyo estado es 'ACTIVO'.
+     *
+     * @return Lista de objetos Empleado activos.
+     */
     public List<Empleado> obtenerEmpleados() {
         List<Empleado> empleados = new ArrayList<>();
         String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado " +
@@ -40,6 +49,12 @@ public class EmpleadoDAO {
         return empleados;
     }
 
+    /**
+     * Obtiene un empleado específico mediante su DNI.
+     *
+     * @param dni DNI del empleado que se desea consultar.
+     * @return Objeto Empleado si se encuentra, null en caso contrario.
+     */
     public Empleado obtenerEmpleadoPorDni(String dni) {
         String sql = "SELECT dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado " +
                      "FROM empleados WHERE dni_empleado = ?";
@@ -72,6 +87,12 @@ public class EmpleadoDAO {
         return empleado;
     }
 
+    /**
+     * Inserta un nuevo empleado en la base de datos con estado inicial 'ACTIVO'.
+     *
+     * @param empleado Objeto Empleado con los datos a registrar.
+     * @return true si la operación fue exitosa, false si ocurrió un error.
+     */
     public boolean insertarEmpleado(Empleado empleado) {
         String sql = "INSERT INTO empleados (dni_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, genero, telefono_empleado, contrasena, estado) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVO')";
@@ -96,6 +117,12 @@ public class EmpleadoDAO {
         }
     }
 
+    /**
+     * Actualiza los datos de un empleado existente según su DNI.
+     *
+     * @param empleado Objeto Empleado con los nuevos datos.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
     public boolean actualizarEmpleado(Empleado empleado) {
         String sql = "UPDATE empleados SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, genero = ?, telefono_empleado = ?, contrasena = ? " +
                      "WHERE dni_empleado = ?";
@@ -120,7 +147,12 @@ public class EmpleadoDAO {
         }
     }
 
-    // Nueva implementación: Eliminación lógica
+    /**
+     * Realiza una eliminación lógica de un empleado (cambia su estado a 'INACTIVO').
+     *
+     * @param dni DNI del empleado a desactivar.
+     * @return true si la operación fue exitosa, false si ocurrió un error.
+     */
     public boolean desactivarEmpleado(String dni) {
         String sql = "UPDATE empleados SET estado = 'INACTIVO' WHERE dni_empleado = ?";
 

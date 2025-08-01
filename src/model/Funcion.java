@@ -3,6 +3,11 @@ package model;
 import java.sql.Timestamp;
 import java.sql.Time;
 
+/**
+ * Representa una función o proyección de una película en el cine.
+ * Contiene información sobre la película, fecha, hora, tipo de proyección
+ * y datos adicionales obtenidos mediante JOIN (como título de la película y nombre de la sala).
+ */
 public class Funcion {
     private int idFuncion;
     private int idPelicula;
@@ -38,6 +43,9 @@ public class Funcion {
 
     //--------------------------------------------------------------------------
 
+    /** 
+    * Builder para construir instancias de {@link Funcion} de manera más legible y segura.
+    */
     public static class Builder {
         private final Funcion funcion;
 
@@ -80,6 +88,10 @@ public class Funcion {
             return this;
         }
 
+        /** 
+        * Construye y retorna el objeto {@link Funcion} configurado.
+        * @return Instancia de {@link Funcion} con los valores establecidos.
+        */
         public Funcion build() {
             return funcion;
         }

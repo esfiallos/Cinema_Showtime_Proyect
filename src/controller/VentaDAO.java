@@ -7,9 +7,20 @@ import java.util.List;
 import model.DetalleVenta;
 import model.Venta;
 
-
+/**
+ * DAO que permite realizar el registro ventas a la base de datos 
+ */
 public class VentaDAO {
 
+    /**
+    * Inserta una nueva venta y sus respectivos detalles en la base de datos.
+    * 
+    * Este método utiliza una transacción para insertar primero la venta y luego 
+    * los detalles relacionados. Si ocurre un error en cualquier parte, se revierte todo.
+    *
+    * @param venta Objeto Venta que contiene la información de la venta y sus detalles.
+    * @return true si la operación fue exitosa; false en caso contrario.
+    */
     public boolean insertarVenta(Venta venta) {
         String sqlVenta = "INSERT INTO ventas (dni_cliente, dni_empleado, id_funcion, fecha_venta) VALUES (?, ?, ?, ?)";
         String sqlDetalle = "INSERT INTO detalles_venta (id_venta, id_boleto, cantidad, id_asiento) VALUES (?, ?, ?, ?)";
@@ -63,6 +74,14 @@ public class VentaDAO {
         }
     }
 
+    /**
+    * Recupera todas las ventas registradas en la base de datos.
+    * 
+    * Cada venta también incluye sus detalles correspondientes, obtenidos mediante
+    * una consulta adicional.
+    * 
+    * @return Lista de objetos Venta con sus detalles completos.
+    */
     public List<Venta> obtenerVentas() {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT * FROM ventas";
@@ -92,7 +111,15 @@ public class VentaDAO {
         return ventas;
     }
     
-        public List<Venta> obtenerVentasInner() {
+    /**
+    * Recupera todas las ventas junto con el título de la película asociada.
+    * 
+    * Se utiliza una consulta con INNER JOIN para incluir el título de la película
+    * vinculada a la función de la venta. También se cargan los detalles de cada venta.
+    *
+    * @return Lista de objetos Venta con el título de la película y sus detalles.
+    */
+    public List<Venta> obtenerVentasInner() {
        List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.id_venta, v.dni_cliente, v.dni_empleado, v.id_funcion, v.fecha_venta, p.titulo " +
                      "FROM ventas v " +
@@ -126,6 +153,7 @@ public class VentaDAO {
     }
 
 
+    
     private List<DetalleVenta> obtenerDetallesVenta(int idVenta, Connection conn) throws SQLException {
         List<DetalleVenta> detalles = new ArrayList<>();
         String sql = "SELECT * FROM detalles_venta WHERE id_venta = ?";
@@ -150,6 +178,12 @@ public class VentaDAO {
         return detalles;
     }
     
+    /**
+    * Elimina una venta específica de la base de datos según su ID.
+    * 
+    * @param idVenta El ID de la venta a eliminar.
+    * @return true si se eliminó correctamente; false en caso contrario.
+    */
     public boolean eliminar(int idVenta) {
         String sql = "DELETE FROM ventas WHERE id_venta = ?";
         try (Connection con = ConnectionDB.getConnection();
@@ -164,6 +198,13 @@ public class VentaDAO {
         }
     }
     
+    /**
+    * Obtiene una lista de boletos disponibles en formato texto.
+    * 
+    * Cada boleto se representa como una cadena con su ID y tipo.
+    * 
+    * @return Lista de strings con la forma "ID - Tipo de boleto".
+    */
     public List<String> obtenerListaBoletos() {
         List<String> lista = new ArrayList<>();
         BoletoDAO bol = new BoletoDAO();
@@ -178,6 +219,13 @@ public class VentaDAO {
         return lista;
     }
 
+    /**
+    * Obtiene una lista de asientos disponibles en formato texto.
+    * 
+    * Cada asiento se representa como una cadena con su ID y número.
+    * 
+    * @return Lista de strings con la forma "ID - Número de asiento".
+    */
     public List<String> obtenerListaAsientos() {
         List<String> lista = new ArrayList<>();
         AsientoDAO asi = new AsientoDAO();

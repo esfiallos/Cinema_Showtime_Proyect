@@ -1,7 +1,12 @@
 
 package model;
 
-
+/**
+ * Representa el detalle de una venta en el sistema de cine.
+ * 
+ * Cada detalle está vinculado a una venta específica e incluye información
+ * sobre el boleto comprado, la cantidad adquirida y el asiento asignado.
+ */
 public class DetalleVenta {
     
     private int idDetalleVenta;  // Antes: idDetalleCompra
@@ -25,6 +30,11 @@ public class DetalleVenta {
     public int getIdAsiento() { return idAsiento; }
     public void setIdAsiento(int idAsiento) { this.idAsiento = idAsiento; }
     
+    /**
+    * Clase Builder para construir objetos {@link DetalleVenta} de forma flexible.
+    * 
+    * Utiliza el patrón Builder para permitir una creación fluida y ordenada del objeto.
+    */
     public static class Builder {
         private final DetalleVenta d;
 
@@ -57,6 +67,11 @@ public class DetalleVenta {
             return this;
         }
 
+        /**
+        * Construye y retorna el objeto {@link DetalleVenta} configurado.
+        * 
+        * @return Instancia final de DetalleVenta con los datos establecidos.
+        */
         public DetalleVenta build() {
             return d;
         }

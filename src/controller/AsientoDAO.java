@@ -6,8 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Asiento;
 
+/**
+ * Clase DAO (Data Access Object) encargada de acceder a los datos
+ * de la entidad {@link Asiento} desde la base de datos.
+ * 
+ * Proporciona métodos para recuperar información relacionada con
+ * los asientos almacenados.
+ */
 public class AsientoDAO {
 
+      /**
+     * Recupera todos los asientos existentes en la base de datos.
+     *
+     * @return Una lista de objetos {@link Asiento} con los datos de cada asiento.
+     */
     public List<Asiento> obtenerAsientos() {
         List<Asiento> asientos = new ArrayList<>();
         String sql = "SELECT id_asiento, numero FROM asientos";

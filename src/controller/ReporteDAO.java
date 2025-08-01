@@ -10,9 +10,17 @@ import java.util.List;
 import model.Reporte;
 import java.util.ArrayList;
 
-
+/**
+ * DAO que permite generar distintos reportes basados en las ventas y asistencia de películas.
+ */
 public class ReporteDAO {
 
+    /**
+     * Obtiene el total de ventas agrupadas por día.
+     * 
+     * @return Lista de objetos con fecha y total de ventas.
+     * @throws SQLException si ocurre un error en la consulta.
+     */
     public List<Object[]> obtenerVentasPorDias() throws SQLException {
     String sql = "SELECT " +
              "DATE(v.fecha_venta) AS fecha_venta, " +
@@ -27,6 +35,12 @@ public class ReporteDAO {
         return ejecutarConsulta(sql);
     }
 
+    /**
+     * Obtiene la cantidad de ventas realizadas por día (mal nombrado).
+     * 
+     * @return Lista de objetos con fecha y total de ventas.
+     * @throws SQLException si ocurre un error en la consulta.
+     */
     public List<Object[]> obtenerPeliculasMasVistas() throws SQLException {
         String sql = "SELECT v.fecha_venta, SUM(b.precio_base * dv.cantidad) AS total_ventas " 
              + "FROM ventas v " 
@@ -38,6 +52,12 @@ public class ReporteDAO {
         return ejecutarConsulta(sql);
     }
 
+    /**
+     * Obtiene el total de ingresos generados por cada película.
+     * 
+     * @return Lista de objetos con título de película e ingresos totales.
+     * @throws SQLException si ocurre un error en la consulta.
+     */
     public List<Object[]> obtenerIngresosTotales() throws SQLException {
         String sql = "SELECT p.titulo AS pelicula, "
            + "SUM(b.precio_base * dv.cantidad) AS total_ingresos "
@@ -52,6 +72,12 @@ public class ReporteDAO {
         return ejecutarConsulta(sql);
     }
 
+    /**
+     * Obtiene la cantidad total de asistentes por película.
+     * 
+     * @return Lista de objetos con título de película y cantidad de asistentes.
+     * @throws SQLException si ocurre un error en la consulta.
+     */
     public List<Object[]> obtenerAsistenciaPorPelicula() throws SQLException {
         String sql = "SELECT p.titulo AS pelicula, COUNT(*) AS cantidad_asistentes "
            + "FROM ventas v "
@@ -63,6 +89,13 @@ public class ReporteDAO {
         return ejecutarConsulta(sql);
     }
 
+    /**
+     * Ejecuta una consulta SQL genérica y devuelve los resultados en una lista de objetos.
+     * 
+     * @param sql Consulta SQL a ejecutar.
+     * @return Lista de filas, donde cada fila es un arreglo de objetos.
+     * @throws SQLException si ocurre un error durante la ejecución.
+     */
     private List<Object[]> ejecutarConsulta(String sql) throws SQLException {
         List<Object[]> datos = new ArrayList<>();
         try (Connection conn = ConnectionDB.getConnection();
