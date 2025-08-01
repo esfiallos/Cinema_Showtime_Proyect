@@ -5,10 +5,17 @@ El proyecto incluye funcionalidades para la administración de películas, funci
 
 ---
 
+## Documentación
+
+Puedes consultar la documentación completa generada automáticamente (Javadoc) aquí:  
+[Documentación Javadoc](https://esfiallos.github.io/Cinema_Showtime_Proyect/)
+
+---
+
 ## Características principales
 
 - Gestión de películas, funciones y salas.
-- Registro y control de ventas y boletos.
+- Registro y control de ventas.
 - Administración de clientes y empleados.
 - Reportes básicos para el seguimiento de las operaciones.
 - Interfaz gráfica creada con formularios de NetBeans.
@@ -18,14 +25,14 @@ El proyecto incluye funcionalidades para la administración de películas, funci
 ## Requisitos
 
 - Java JDK 8 o superior.
-- NetBeans IDE (se recomienda para abrir el proyecto con toda la configuración).
+- NetBeans IDE (recomendado para abrir el proyecto con toda la configuración).
 - Base de datos MySQL o compatible.
 
 ---
 
 ## Configuración inicial
 
-- La base de datos está incluida en un archivo `.sql` dentro del repositorio para que puedas importarla fácilmente.
+- La base de datos está incluida en un archivo `.sql` dentro del repositorio para importarla fácilmente.
 - Ajusta la configuración de conexión a la base de datos en la clase `ConnectionDB.java` según tus credenciales locales.
 
 ---
@@ -41,9 +48,27 @@ El proyecto incluye funcionalidades para la administración de películas, funci
 
 ## Notas importantes
 
-- La carpeta `nbproject` contiene la configuración del proyecto para NetBeans, necesaria para abrirlo sin problemas.
-- La carpeta `build` está ignorada y no se encuentra en el repositorio, ya que es generada automáticamente por NetBeans al compilar.
-- Asegúrate de no modificar la estructura principal para evitar problemas al ejecutar.
+- La carpeta `nbproject` contiene la configuración del proyecto para NetBeans.
+- La carpeta `build` está ignorada en el repositorio (es generada por NetBeans).
+- No modifiques la estructura del proyecto si no estás seguro, para evitar errores de ejecución.
+
+---
+
+## Menú oculto para Administrar Empleados
+
+Existe un acceso oculto en la pantalla de inicio de sesión que permite registrar nuevos empleados.
+
+### ¿Cómo acceder?
+
+1. En el formulario de **Login**, escribe como contraseña lo siguiente:
+
+am2r
+
+
+2. Mientras mantienes presionadas las teclas **Ctrl + Shift**, haz clic en el botón **Entrar**.
+
+Si lo haces correctamente, se abrirá un panel oculto para **crear nuevos empleados**.
+
 
 ---
 
